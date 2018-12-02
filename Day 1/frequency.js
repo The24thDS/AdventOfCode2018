@@ -37,7 +37,7 @@ async function secondPart() {
                 duplicate = true;
                 console.log("twice", freq);
                 break;                      //break the for loop, because we only need the first duplicate
-            } else frequencies.push(freq);  //push the resulted freq inside the array is it's not there already
+            } else frequencies.push(freq);  //push the resulted freq inside the array if it's not there already
         }
 }
 firstPart().then(response=>console.log(response));
