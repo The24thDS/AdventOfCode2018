@@ -1,37 +1,17 @@
-let array = [];
-let startFreq = 0;
-async function getFreq() {
-    try{
-        let input = await fetch("https://adventofcode.com/2018/day/1/input"); //fetching the input file
-        let text = await input.text(); //getting the text from the response
-        let array = text.split("\n"); //converting the text into an array
-        array.pop() //removing the last element as it was empty
-        return array;
-    }
-    catch(error)
-    {
-        console.log(error);
-    }
-}
-async function firstPart() {
-    let freq = startFreq; //initializing frequency with start freq
-    array = await getFreq(); //waiting for promise resolve
-    array.forEach(freqChange => {
-        let number = Number(freqChange); //converting text to number
-        freq += number; //changing frequency
-    })
+const inputData = require("./input.js").input;
+const format = require("../global/format.js");
+const array = format.Numbers(inputData);
+const firstPart = () => {
+    let freq = array.reduce((accumulator,element)=>accumulator+element);
     return freq; //returning the final frequency
 }
-async function secondPart() {
-    let freq = startFreq; //initializing frequency with start freq
-    array = await getFreq(); //waiting for promise resolve
-    console.log(array);
+const secondPart = () => {
+    let freq = 0;
     let duplicate = false;
     let frequencies = [0,];
     while(!duplicate)
-        for(let freqChange of array) {
-            let number = Number(freqChange); //converting text to number
-            freq += number; //changing frequency
+        for(let element of array) {
+            freq += element; //changing frequency
             if(frequencies.includes(freq))  //if the resulted freq is inside the array
             {                               //then is the second time we get it
                 duplicate = true;
@@ -40,5 +20,5 @@ async function secondPart() {
             } else frequencies.push(freq);  //push the resulted freq inside the array if it's not there already
         }
 }
-firstPart().then(response=>console.log(response));
+console.log("Final frequency:", firstPart());
 secondPart();
