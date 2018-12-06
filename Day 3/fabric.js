@@ -18,9 +18,10 @@ const insert = (element) => {
 }
 const firstPart = () => {
     array.forEach(element => insert(element));
-    Object.values(zones).forEach(zone=>{
-        for(let i = zone.top; i<zone.top+zone.height; i++)
-            for(let j = zone.left; j<zone.left+zone.width; j++)
+    Object.keys(zones).forEach(key=>{
+        const {left, top, width, height} = zones[key];
+        for(let i = top; i<top+height; i++)
+            for(let j = left; j<left+width; j++)
                 fabric[i][j]++;
     })
     const overlapingInches = fabric.map(arr=>arr.filter(element=>element>1)).filter(element=>element.length>0);
@@ -30,6 +31,20 @@ const firstPart = () => {
         const temp = overlapingInches.pop();
         temp.forEach(element=>overlapingInches.unshift(element)) 
     }
-    log(overlapingInches.length)
+    log("Overlaping square inches: ", overlapingInches.length)
+}
+const secondPart = () => {
+    for(let key of Object.keys(zones)){
+        let onlyOne = true;
+        const {left, top, width, height} = zones[key];
+        for(let i = top; i<top+height; i++)
+            for(let j = left; j<left+width; j++)
+                if(fabric[i][j]>1) onlyOne = false;
+        if(onlyOne){
+            log("ID of the only claim that doesn't overlap: ",key);
+            break;
+        }        
+    }
 }
 firstPart();
+secondPart();
