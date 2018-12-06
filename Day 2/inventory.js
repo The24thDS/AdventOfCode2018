@@ -17,4 +17,32 @@ const firstPart = () => {
     })
     return twice*threeX;
 }
+const secondPart = () => {
+    const strL = array[0].length;
+    const almostEqualBoxes = [];
+    for(let index=0; index<array.length; index++){
+        const element = array[index];
+        almostEqualBoxes.push(element);
+        for(let i=index+1; i<array.length; i++)
+        {
+            let differentLetters = 0;
+            for(let c=0; c<strL; c++)
+            {
+                if(element.charCodeAt(c)!==array[i].charCodeAt(c))
+                    differentLetters++;
+                if(differentLetters>1) break;
+            }
+            if(differentLetters===1)
+            {
+                almostEqualBoxes.push(array[i]);
+                break;
+            }
+        }
+        if(almostEqualBoxes.length===2) break;
+        else almostEqualBoxes.pop();
+    }
+    for(let c=0; c<strL; c++)
+        if(almostEqualBoxes[0].charAt(c)===almostEqualBoxes[1].charAt(c)) console.log(almostEqualBoxes[1].charAt(c))
+}
 console.log(firstPart());
+secondPart();
