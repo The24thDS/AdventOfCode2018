@@ -1,5 +1,6 @@
 const inputData = require("./input.js").input;
 const format = require("../global/format.js");
+const log = format.indentedLog;
 const array = format.Strings(inputData);
 const firstPart = () => {
     let twice = 0, threeX = 0;
@@ -41,8 +42,10 @@ const secondPart = () => {
         if(almostEqualBoxes.length===2) break;
         else almostEqualBoxes.pop();
     }
+    let string = '';
     for(let c=0; c<strL; c++)
-        if(almostEqualBoxes[0].charAt(c)===almostEqualBoxes[1].charAt(c)) console.log(almostEqualBoxes[1].charAt(c))
+        if(almostEqualBoxes[0].charAt(c)===almostEqualBoxes[1].charAt(c)) string+=almostEqualBoxes[1].charAt(c);
+    log(string);
 }
-console.log(firstPart());
+log(firstPart());
 secondPart();

@@ -1,5 +1,6 @@
 const inputData = require("./input.js").input;
 const format = require("../global/format.js");
+const log = format.indentedLog;
 const array = format.Numbers(inputData);
 const firstPart = () => {
     let freq = array.reduce((accumulator,element)=>accumulator+element);
@@ -15,10 +16,10 @@ const secondPart = () => {
             if(frequencies.includes(freq))  //if the resulted freq is inside the array
             {                               //then is the second time we get it
                 duplicate = true;
-                console.log("twice", freq);
+                log("twice", freq);
                 break;                      //break the for loop, because we only need the first duplicate
             } else frequencies.push(freq);  //push the resulted freq inside the array if it's not there already
         }
 }
-console.log("Final frequency:", firstPart());
+log("Final frequency:", firstPart());
 secondPart();
