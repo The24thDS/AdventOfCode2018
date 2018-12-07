@@ -8,24 +8,23 @@ Array.prototype.max = function() {
   };
 const chronologicalSort = () => {
     array.forEach((element, i)=>{
-        let temparr=element.split("] ");
-        if(temparr[1].charAt(6)==='#'){
-            temparr[1]=temparr[1].split(" ")[1];
-        }else if(temparr[1].includes("falls")) temparr[1]=1; else temparr[1]=0;
-        const info = temparr[1];
-        let time = temparr[0].split(/[- :]+/);
+        let tempArr=element.split("] ");
+        let time = tempArr[0].split(/[- :]+/);
         time.shift();
         time = time.join("");
-        array[i]=[time, info]
+        if(tempArr[1].includes('#'))
+            array[i]=`${time} ${tempArr[1].split(" ")[1]}`;
+        else
+            array[i]=time;
     })
     array.sort();
 }
 const populateDataObject = () => {
     let key;
     array.forEach(element=>{
-        if(typeof element[1]==="string") {key = element[1];data[key] = data[key]===undefined?[]:data[key]}
+        if(element.includes("#")) {key = element.split(" ")[1]; data[key] = data[key]===undefined?[]:data[key]}
         else {
-            data[key].push(Number(element[0].slice(-2)))}
+            data[key].push(Number(element.slice(-2)))}
     })
 }
 const calculateTotalTimeAsleep = () =>{
@@ -49,14 +48,25 @@ const asleepMost = (guardSleepTimes) => {
             for(let j = startSleep; j<stopSleep; j++)
                 minutes[j]++;
         }
-    return minutes.indexOf(minutes.max());
+    return [minutes.indexOf(minutes.max()), minutes.max()];
 }
 const firstPart = () => {
-    chronologicalSort();
-    populateDataObject();
     const sleepyGuard = calculateTotalTimeAsleep();
     const minute = asleepMost(data[sleepyGuard]);
-    log(Number(sleepyGuard.slice(1))*minute);
+    log("Strategy 1: ", Number(sleepyGuard.slice(1))*minute[0]);
 }
-firstPart()
-// log(data)
+const secondPart = () => {
+    let max = 0, sleepyGuard = [];
+    Object.keys(data).forEach(guard=>{
+        const tempArr = asleepMost(data[guard]);
+        if(tempArr[1]>max) {
+            max = tempArr[1];
+            sleepyGuard = [guard, tempArr[0]];
+        }
+    })
+    log("Strategy 2: ", Number(sleepyGuard[0].slice(1))*sleepyGuard[1]);
+}
+chronologicalSort();
+populateDataObject();
+firstPart();
+secondPart();
